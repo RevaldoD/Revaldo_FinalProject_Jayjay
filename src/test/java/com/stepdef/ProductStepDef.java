@@ -4,6 +4,7 @@ import com.additional.CommonSteps;
 import com.additional.Driver;
 import com.page.LoginPage;
 import com.page.ProductPage;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -27,8 +28,23 @@ public class ProductStepDef extends Driver{
         product.clickToCart();
     }
 
+    @And("the user navigates to the cart page")
+    public void pressCartIcon(){
+        product.cartList();
+    }
+
     @Then("the product should appear in the cart")
     public void productShouldAppearInCart(){
-        product.cartList();
+        product.checkProductExists();
+    }
+
+    @And("the user clicks delete button")
+    public void pressDeleteButton(){
+        product.deleteProduct();
+    }
+
+    @Then("the product is deleted from the cart")
+    public void producDeleted(){
+        product.checkProductDeleted();
     }
 }
