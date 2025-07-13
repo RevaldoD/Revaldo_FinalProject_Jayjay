@@ -6,6 +6,8 @@ import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+
 public class UsersList {
     private Map<String, Object> requestBody;
     private Response response;
@@ -23,7 +25,7 @@ public class UsersList {
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .when()
-                .get("/data/v1/user/" + userId); // ✅ build dynamic endpoint
+                .get("/data/v1/user/" + userId);
     }
 
 
@@ -38,25 +40,28 @@ public class UsersList {
     public Map<String, Object> buildUserRequest(String firstName, String title) {
         Map<String, Object> body = new HashMap<>();
         body.put("firstName", firstName);
-        body.put("title", title); // ✅ now title is passed from step
-        body.put("lastName", "Dodi");
-        body.put("picture", "https://randomuser.me/api/portraits/med/men/23.jpg");
+        body.put("title", title);
+        body.put("lastName", "Savela");
+        body.put("picture", "https://randomuser.me/api/portraits/med/men/67.jpg");
         body.put("gender", "male");
-        body.put("dateOfBirth", "1964-12-08T16:34:53.710Z");
-        body.put("phone", "(886)-854-5524");
+
+        String uniqueEmail = "leevi" + System.currentTimeMillis() + "@example.com";
+        body.put("email", uniqueEmail);
+
+        body.put("dateOfBirth", "1980-12-19T12:11:14.893Z");
+        body.put("phone", "02-200-101");
 
         Map<String, String> location = new HashMap<>();
-        location.put("street", "Updated Street 456");
-        location.put("city", "Updated City");
-        location.put("state", "Updated State");
-        location.put("country", "Updated Country");
-        location.put("timezone", "+5:00");
+        location.put("street", "4013, HÃ¤meentie");
+        location.put("city", "Malax");
+        location.put("state", "Southern Ostrobothnia");
+        location.put("country", "Finland");
+        location.put("timezone", "+1:00");
 
         body.put("location", location);
         return body;
     }
 
-    // ✅ POST: Create new user
     public void sendPostNewUser(Map<String, Object> requestBody) {
         RestAssured.baseURI = "https://dummyapi.io";
         response = RestAssured
@@ -69,8 +74,10 @@ public class UsersList {
                 .post("/data/v1/user/create");
     }
 
-    // ✅ PUT: Update existing user
+
     public void sendPutEditUser(String userId, Map<String, Object> requestBody) {
+        requestBody.remove("email");
+
         RestAssured.baseURI = "https://dummyapi.io";
         response = RestAssured
                 .given()
@@ -104,15 +111,18 @@ public class UsersList {
                 .when()
                 .post("/data/v1/user/create");
 
-        return response.jsonPath().getString("id"); // ✅ extract user ID
+        return response.jsonPath().getString("id");
     }
+
 
     public void verifyResponseBodyContainsId(String expectedId) {
-        response.then()
-                .log().body()
-                .assertThat()
-                .body(org.hamcrest.Matchers.equalTo(expectedId));
+        if (response != null) {
+            response.then()
+                    .log().body()
+                    .body("id", equalTo(expectedId));
+        } else {
+            throw new IllegalStateException("No response to verify.");
+        }
     }
-
 
 }

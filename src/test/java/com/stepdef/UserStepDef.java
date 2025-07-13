@@ -31,7 +31,7 @@ public class UserStepDef {
 
     @Given("input user data with the designated format")
     public void inputUserData() {
-        requestBody = user.buildUserRequest("Aldi", "mr"); // ✅ calls reusable method from UsersList
+        requestBody = user.buildUserRequest("tidi", "mr"); // ✅ calls reusable method from UsersList
     }
 
     @When("the user sends a POST request to create new user")
