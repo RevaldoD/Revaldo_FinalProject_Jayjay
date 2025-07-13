@@ -1,6 +1,6 @@
 package com.additional;
 
-import com.page.LoginPage;
+import com.UI.LoginPage;
 
 public class CommonSteps {
     public static void loginAsValidUser() {

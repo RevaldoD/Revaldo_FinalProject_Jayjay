@@ -1,4 +1,4 @@
-@product
+@product"@ui"
 Feature: Products
 
   @valid-addtocart
@@ -24,3 +24,4 @@ Feature: Products
     And the user clicks Checkout
     And Fill the form
     Then the user succeed checkout the products
+
