@@ -12,6 +12,12 @@ public class Driver {
     public static WebDriver getDriver() {
         if (driver == null) {
             ChromeOptions options = new ChromeOptions();
+
+            // Headless mode (required for CI)
+            options.addArguments("--headless");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+
             options.addArguments("--disable-autofill");
             options.addArguments("--disable-save-password-bubble");
 

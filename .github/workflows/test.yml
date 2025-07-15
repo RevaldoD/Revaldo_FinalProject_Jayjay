@@ -12,7 +12,34 @@ permissions:
   id-token: write
 
 jobs:
-  automation-JayJayFinalProject:
+  api-tests:
+    name: Run API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant Gradlew Permission
+        run: chmod +x gradlew
+
+      - name: Run API Tests Only
+        run: ./gradlew clean test -Dcucumber.filter.tags="@api"
+
+      - name: Archive API Test Results
+        uses: actions/upload-artifact@v4.6.2
+        if: always()
+        with:
+          name: API Test Report
+          path: target/cucumber-reports.html
+
+  ui-tests:
+    name: Run UI Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -29,17 +56,15 @@ jobs:
         with:
           chrome-version: stable
 
-      - name: Setup gradlew and Build
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+      - name: Grant Gradlew Permission
+        run: chmod +x gradlew
 
-      - name: Run Tests
-        run: ./gradlew clean test
+      - name: Run UI Tests Only
+        run: ./gradlew clean test -Dcucumber.filter.tags="@ui"
 
-      - name: Archive test results
+      - name: Archive UI Test Results
         uses: actions/upload-artifact@v4.6.2
         if: always()
         with:
-          name: Final Project Web and API Automation Workflow
+          name: UI Test Report
           path: target/cucumber-reports.html
