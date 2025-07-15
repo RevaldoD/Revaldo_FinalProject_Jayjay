@@ -35,7 +35,7 @@ jobs:
       - name: Setup ChromeDriver
         uses: nanasess/setup-chromedriver@v2
         with:
-          chromedriver-version: 'matching-chrome'
+          chromedriver-version: 'latest'
         env:
           CHROME_BIN: google-chrome
 
