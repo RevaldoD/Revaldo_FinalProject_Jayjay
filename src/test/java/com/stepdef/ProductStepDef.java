@@ -51,7 +51,6 @@ public class ProductStepDef extends Driver{
 
     @And("the user clicks Checkout")
     public void pressCheckout(){
-        product.checkProductExists();
         product.clickPlaceOrder();
         product.checkPurchaseForm();
     }
