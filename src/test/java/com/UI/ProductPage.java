@@ -37,7 +37,7 @@ public class ProductPage {
     By laptopsSection = By.xpath("//a[contains(text(),'Laptop')]");
     By macbookAirTitle = By.xpath("//a[contains(text(), 'MacBook air')]");
     By addToCartButton = By.xpath("//a[contains(text(), 'Add to cart')]");
-    By deleteButton = By.xpath("//a[contains(text(), 'Delete')]");
+    By deleteButton = By.xpath("//*[@id='tbodyid']/tr/td[4]/a");
     By checkoutButton = By.xpath("//button[text()='Place Order']");
     By purchaseButton = By.xpath("//button[text()= 'Purchase']");
     By cartBadge       = By.id("cartur");
