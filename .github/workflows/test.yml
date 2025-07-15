@@ -25,11 +25,19 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+
       # Install Chrome and ChromeDriver
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1.7.3
         with:
           chrome-version: stable #bisa pakai 'headless' (Jika ingin menjalankan Chrome dalam mode headless) tanpa interaksi
+
+      - name: Setup ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+        with:
+          chromedriver-version: 'matching-chrome'
+        env:
+          CHROME_BIN: google-chrome
 
       # Setup gradlew and build project
       - name: Setup gradlew and Build
@@ -37,7 +45,6 @@ jobs:
           chmod +x gradlew # make gradlew executable
           ./gradlew build # Run the build task before tests
 
-      # Run tests
       - name: Run Tests
         run: ./gradlew clean test
 
